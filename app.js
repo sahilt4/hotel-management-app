@@ -8,11 +8,11 @@ const defaultQuickMenu = [
   { name: "Vada", price: 35, category: 'Breakfast' },
   { name: "Masala Dosa", price: 70, category: 'Breakfast' },
   { name: "Plain Dosa", price: 60, category: 'Breakfast' },
-  { name: "Poori", price: 55, category: 'Breakfast' },
-  { name: "Chapati", price: 50, category: 'Main' },
+  { name: "Misal", price: 55, category: 'Breakfast' },
+  { name: "Pav Bhaji", price: 50, category: 'Main' },
   { name: "Tea", price: 15, category: 'Drinks' },
   { name: "Coffee", price: 20, category: 'Drinks' },
-  { name: "Lime Juice", price: 25, category: 'Drinks' },
+  { name: "Juice", price: 25, category: 'Drinks' },
   { name: "Water Bottle", price: 20, category: 'Drinks' },
 ];
 
@@ -396,7 +396,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function askToClearTable(tableNumber) {
     // delay slightly so the print dialog finishes in most browsers
     setTimeout(() => {
-      const confirmClear = window.confirm(`Clear all items for Table ${tableNumber}?`);
+      const confirmClear = window.confirm(`If bill is printed then should i unreserve table and clear all items for Table ${tableNumber}?`);
       if (!confirmClear) return;
       if (state.tables && state.tables[tableNumber]) {
         state.tables[tableNumber].items = [];
