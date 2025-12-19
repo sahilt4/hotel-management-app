@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Billing - Cashier Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- QRCode library (client-side only) -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div class="hotel-title">
+        <span id="hotelNameDisplay">My Hotel</span>
+        <small id="hotelAddressDisplay">123, Main Street, City</small>
+      </div>
+      <div class="top-actions">
+        <button id="openSettingsBtn" class="btn ghost-btn">Settings</button>
+      </div>
+    </header>
+
+  <!-- Open panels area: allows multiple table panels to be open simultaneously -->
+  <section id="openPanelsSection" class="panel open-panels-section">
+    <h2>Open Table Panels (dbl-click a table to open)</h2>
+    <div id="openPanels" class="open-panels-container"></div>
+  </section>
+
+    <main class="main-layout">
+      <!-- Left: Table selection & current table summary -->
+      <section class="panel table-panel">
+        <h2>Tables</h2>
+        <div id="tablesContainer" class="tables-grid"></div>
+
+        <div class="current-table-header">
+          <div>
+            <span class="label">Current table:</span>
+            <span id="currentTableLabel" class="current-table-label">1</span>
+          </div>
+          <button id="clearTableBtn" class="btn danger-btn small">Clear Table</button>
+        </div>
+
+        <div class="table-summary">
+          <div><span class="label">Items:</span> <span id="itemCountDisplay">0</span></div>
+          <div><span class="label">Subtotal:</span> ₹<span id="subtotalDisplay">0.00</span></div>
+          <div><span class="label">Tax (%):</span> <span id="taxRateDisplay">0</span></div>
+          <div><span class="label">Grand Total:</span> ₹<span id="grandTotalDisplay">0.00</span></div>
+        </div>
+
+        <button id="printBillBtn" class="btn primary-btn full-width">Print Bill</button>
+      </section>
+
+      <!-- Center: Current table order items -->
+      <section class="panel order-panel">
+        <h2>Current Order</h2>
+        <div class="order-form">
+          <div class="field-group">
+            <label for="itemNameInput">Item name</label>
+            <input id="itemNameInput" type="text" placeholder="Eg. Masala Dosa" />
+          </div>
+          <div class="field-group">
+            <label for="itemPriceInput">Price (₹)</label>
+            <input id="itemPriceInput" type="number" min="0" step="0.01" />
+          </div>
+          <div class="field-group">
+            <label for="itemQtyInput">Qty</label>
+            <input id="itemQtyInput" type="number" min="1" step="1" value="1" />
+          </div>
+          <button id="addItemBtn" class="btn primary-btn">Add Item</button>
+        </div>
+
+        <div class="order-items-wrapper">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="orderItemsBody">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Right: Quick menu (optional preset items) -->
+      <section class="panel menu-panel">
+        <h2>Quick Menu</h2>
+        <p class="hint">Click to quickly add to current table.</p>
+        <div id="quickMenuContainer" class="menu-list">
+          <!-- items injected by JS -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Reports panel -->
+  <section id="reportsPanel" class="panel hidden">
+    <header style="display:flex;align-items:center;justify-content:space-between;">
+      <h2>Sales Reports</h2>
+      <button id="closeReportsBtn" class="icon-btn">&times;</button>
+    </header>
+    <div style="display:flex;gap:8px;align-items:center;margin:8px 0;">
+      <label>From <input id="reportFrom" type="date"></label>
+      <label>To <input id="reportTo" type="date"></label>
+      <button id="filterReportsBtn" class="btn ghost-btn">Filter</button>
+      <button id="exportReportsBtn" class="btn ghost-btn">Export JSON</button>
+    </div>
+    <div id="reportsList" style="max-height:420px;overflow:auto;border-top:1px dashed rgba(148,163,184,0.06);padding-top:8px;"></div>
+  </section>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Hotel Settings</h2>
+        <button id="closeSettingsBtn" class="icon-btn" aria-label="Close settings">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="hotelNameInput">Hotel name</label>
+          <input id="hotelNameInput" type="text" placeholder="Your hotel name" />
+        </div>
+        <div class="field-group">
+          <label for="hotelAddressInput">Address / contact</label>
+          <textarea id="hotelAddressInput" rows="3" placeholder="Address line, City, Phone"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="taxRateInput">Tax percentage (%)</label>
+          <input id="taxRateInput" type="number" min="0" max="99" step="0.1" />
+        </div>
+        <div class="field-group">
+          <label for="qrTextInput">QR code text / URL / UPI ID</label>
+          <input id="qrTextInput" type="text" placeholder="upi://pay?... or any text to encode" />
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <button id="resetSettingsBtn" class="btn ghost-btn">Reset</button>
+        <button id="saveSettingsBtn" class="btn primary-btn">Save</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Printable bill layout -->
+  <div id="printArea">
+    <div class="bill">
+      <div class="bill-header">
+        <div class="bill-logo">
+          <!-- optional logo (you can set src via settings or replace this img) -->
+          <img id="billLogoImg" src="" alt="" />
+        </div>
+        <div class="bill-title">
+          <h1 id="billHotelName">My Hotel</h1>
+          <div id="billHotelAddress" class="bill-address">123, Main Street, City</div>
+        </div>
+        <div class="bill-meta">
+          <div>Table: <strong id="billTableNumber">1</strong></div>
+          <div>Invoice: <strong id="billInvoice">-</strong></div>
+          <div>Date: <strong id="billDate"></strong></div>
+        </div>
+      </div>
+      <table class="bill-items">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="billItemsBody"></tbody>
+      </table>
+      <div class="bill-totals">
+        <div>Subtotal: ₹<span id="billSubtotal">0.00</span></div>
+        <div>Tax (<span id="billTaxRate">0</span>%): ₹<span id="billTaxAmount">0.00</span></div>
+        <div class="bill-grand">Grand Total: ₹<span id="billGrandTotal">0.00</span></div>
+        <div class="bill-payment">Paid by: <strong id="billPaymentMethod">-</strong></div>
+      </div>
+      <div class="bill-footer">
+        <div class="bill-qr">
+          <div id="billQrCode"></div>
+          <small>Scan to pay</small>
+        </div>
+        <div class="thanks">Thank you, visit again!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment modal (choose payment method before printing) -->
+  <div id="paymentModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2>Payment</h2>
+        <button id="closePaymentBtn" class="icon-btn">&times;</button>
+      </header>
+      <div class="modal-body">
+        <div class="field-group">
+          <label>Payment method</label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label><input type="radio" name="paymentMethod" value="Cash" checked> Cash</label>
+            <label><input type="radio" name="paymentMethod" value="UPI"> UPI</label>
+          </div>
+        </div>
+        <!-- Reference field removed as requested -->
+      </div>
+      <footer class="modal-footer">
+        <button id="cancelPaymentBtn" class="btn ghost-btn">Cancel</button>
+        <button id="confirmPaymentBtn" class="btn primary-btn">Confirm & Print</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
+
+

@@ -1,0 +1,817 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Slightly increase base font-size to make all text a bit larger */
+html {
+  font-size: 112%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: radial-gradient(circle at top left, #1d4ed8, #020617);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.hotel-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.hotel-title span {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.hotel-title small {
+  font-size: 0.7rem;
+  color: #cbd5f5;
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr 1.1fr;
+  gap: 0.75rem;
+  padding: 0.75rem;
+}
+
+.panel {
+  background: rgba(15, 23, 42, 0.96);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  backdrop-filter: blur(16px);
+}
+
+.panel h2 {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #93c5fd;
+}
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.table-btn {
+  padding: 0.4rem 0;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: radial-gradient(circle at top, #0b1120, #020617);
+  color: #e5e7eb;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+}
+
+.table-btn span {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* Slightly larger typography for the Tables panel */
+.table-panel {
+  font-size: 1.03rem;
+}
+
+.table-btn.active {
+  border-color: #38bdf8;
+  background: radial-gradient(circle at top, #0369a1, #020617);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5), 0 12px 30px rgba(8, 47, 73, 0.9);
+}
+
+.table-btn.has-items::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #22c55e;
+}
+
+.current-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.current-table-label {
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.table-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.6rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  margin-bottom: 0.6rem;
+}
+
+.table-summary div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  border-radius: 999px;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-weight: 500;
+  transition: all 0.15s ease-out;
+}
+
+.btn.primary-btn {
+  background: linear-gradient(135deg, #2563eb, #22c55e);
+  color: white;
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.6);
+}
+
+.btn.primary-btn:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+.btn.danger-btn {
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+  border: 1px solid rgba(248, 113, 113, 0.6);
+}
+
+.btn.danger-btn:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.btn.ghost-btn {
+  background: transparent;
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+}
+
+.btn.ghost-btn:hover {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.btn.small {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+}
+
+.btn.full-width {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.order-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-form {
+  display: grid;
+  grid-template-columns: 1.5fr 0.7fr 0.6fr auto;
+  gap: 0.4rem;
+  align-items: flex-end;
+  margin-bottom: 0.3rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.field-group label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+input,
+textarea {
+  border-radius: 0.45rem;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 0.3rem 0.4rem;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e5e7eb;
+  font-size: 0.8rem;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.9);
+  outline-offset: 0;
+}
+
+.order-items-wrapper {
+  flex: 1;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+  overflow: hidden;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.order-table th,
+.order-table td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid rgba(30, 64, 175, 0.5);
+}
+
+/* Improve spacing between item name, qty and prices in the order table */
+.order-table td:nth-child(1), .order-table th:nth-child(1) { width: 6%; }
+.order-table td:nth-child(2), .order-table th:nth-child(2) { width: 56%; }
+.order-table td:nth-child(3), .order-table th:nth-child(3) { width: 12%; text-align: center; }
+.order-table td:nth-child(4), .order-table th:nth-child(4) { width: 13%; text-align: right; }
+.order-table td:nth-child(5), .order-table th:nth-child(5) { width: 13%; text-align: right; }
+
+.order-table thead {
+  background: rgba(15, 23, 42, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.order-table tbody tr:nth-child(odd) {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.order-table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.menu-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.menu-list {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.3rem;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: radial-gradient(circle at top left, #020617, #020617);
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+.menu-item:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+}
+
+.menu-item-name {
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.menu-item-price {
+  color: #a5b4fc;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  position: relative;
+  background: #020617;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.95);
+}
+
+/* Larger, clearer payment modal */
+#paymentModal .modal-content {
+  max-width: 540px;
+  padding: 1rem 1.25rem;
+}
+#paymentModal .modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+#paymentModal .modal-body .field-group label {
+  font-size: 1rem;
+}
+#paymentModal input[type="radio"] {
+  transform: scale(1.6);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Make radio labels larger and easier to tap */
+#paymentModal label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#paymentModal label:hover {
+  background: rgba(255,255,255,0.02);
+}
+#paymentModal .modal-body .field-group > div {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+#paymentModal .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+#paymentModal .btn {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.95rem;
+}
+#paymentModal .primary-btn {
+  font-weight: 700;
+}
+
+/* make payment display more prominent on bill preview */
+.bill-payment { font-size: 0.95rem; margin-top: 6px; }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #bfdbfe;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+/* Open panels (small cards for simultaneous table editing) */
+.open-panels-section {
+  margin: 0.75rem;
+}
+.open-panels-container {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.open-panel-card {
+  min-width: 220px;
+  max-width: 260px;
+  background: linear-gradient(180deg, rgba(2,6,23,0.95), rgba(2,6,23,0.98));
+  border: 1px solid rgba(56,189,248,0.08);
+  padding: 0.5rem;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.open-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.open-panel-items {
+  max-height: 160px;
+  overflow: auto;
+  border-top: 1px dashed rgba(148,163,184,0.06);
+  padding-top: 0.35rem;
+}
+.open-panel-items div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding: 0.15rem 0;
+}
+
+/* give a bit more separation inside open-panel rows for readability */
+.open-panel-items div span:first-child { margin-right: 8px; }
+.open-panel-controls {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.open-panel-controls input {
+  width: 100%;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.35rem;
+}
+.open-panel-actions {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: flex-end;
+}
+
+/* Reports list styles */
+.reports-item {
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid rgba(148,163,184,0.04);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.reports-item .left {
+  display:flex;flex-direction:column;gap:4px;
+}
+.reports-item small { color: #9ca3af; }
+.reports-item .amount { font-weight: 600; color: #a5b4fc; }
+
+/* Compact summary table for reports */
+.reports-summary {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 8px;
+}
+.reports-summary th,
+.reports-summary td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(148,163,184,0.06);
+  font-size: 0.95rem;
+}
+.reports-summary th {
+  text-align: left;
+  color: #93c5fd;
+  font-weight: 600;
+}
+.reports-summary td.amount {
+  text-align: right;
+  font-weight: 600;
+}
+.reports-summary .category-row td {
+  background: rgba(15,23,42,0.03);
+  font-weight: 600;
+}
+
+/* Printable bill styles */
+#printArea {
+  display: none; /* hidden on screen, shown for print via @media print */
+}
+
+.bill {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #020617;
+  width: 80mm;
+  margin: 0 auto;
+  font-size: 11px;
+}
+
+.bill-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed #9ca3af;
+  padding: 6px 4px;
+  margin-bottom: 6px;
+}
+
+.bill-logo img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.bill-title {
+  flex: 1;
+  text-align: center;
+}
+
+.bill-title h1 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+}
+
+.bill-address {
+  white-space: pre-line;
+}
+
+.bill-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.bill-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+.bill-items th,
+.bill-items td {
+  padding: 3px 2px;
+  border-bottom: 1px dashed #d1d5db;
+}
+
+.bill-items th {
+  font-size: 10px;
+}
+
+.bill-items td:nth-child(1), .bill-items th:nth-child(1) { width: 6%; }
+.bill-items td:nth-child(2), .bill-items th:nth-child(2) { width: 52%; }
+.bill-items td:nth-child(3), .bill-items th:nth-child(3) { width: 12%; text-align: center; }
+.bill-items td:nth-child(4), .bill-items th:nth-child(4) { width: 15%; text-align: right; }
+.bill-items td:nth-child(5), .bill-items th:nth-child(5) { width: 15%; text-align: right; }
+
+.bill-totals {
+  margin-top: 6px;
+  border-top: 1px solid #9ca3af;
+  padding-top: 4px;
+}
+
+.bill-totals div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bill-grand {
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.bill-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.bill-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.bill-qr #billQrCode canvas {
+  width: 70px !important;
+  height: 70px !important;
+}
+
+@media print {
+  .bill-logo img { width: 48px; height: 48px; }
+  .bill-title h1 { font-size: 16px; }
+}
+
+/* Ensure hotel name is centered at top for print */
+@media print {
+  .bill-header {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .bill-title {
+    order: 0;
+    width: 100%;
+  }
+  .bill-meta {
+    align-items: center !important;
+    margin-top: 6px;
+  }
+  .bill-logo img { margin-bottom: 6px; }
+}
+
+@media print {
+  .bill-footer {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px;
+  }
+  .thanks {
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+}
+
+.thanks {
+  font-size: 11px;
+}
+
+@media (max-width: 960px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-list {
+    max-height: 220px;
+  }
+}
+
+/* Extra responsive improvements for tablets and phones */
+@media (max-width: 1280px) {
+  .main-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tables-grid {
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  /* Stack everything vertically on small screens */
+  .main-layout {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .order-form {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+  }
+
+  .order-form .field-group input,
+  .order-form .field-group textarea,
+  .open-panel-controls input {
+    width: 100%;
+  }
+
+  .table-btn {
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    border-radius: 0.6rem;
+  }
+
+  .menu-item {
+    padding: 0.6rem 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  /* Open panels scroll horizontally on small screens */
+  .open-panels-container {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .open-panel-card {
+    min-width: 220px;
+    flex: 0 0 auto;
+  }
+
+  /* Make modal content full-width with comfortable padding */
+  .modal-content {
+    max-width: 95%;
+    padding: 0.9rem;
+  }
+
+  /* Increase overall tappable sizes for mobile */
+  .btn, .icon-btn {
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  /* ensure printArea is displayed when printing */
+  #printArea {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    margin: 0 auto;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 4mm;
+  }
+}
+
+
