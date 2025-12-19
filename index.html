@@ -9,22 +9,26 @@
   <!-- QRCode library (client-side only) -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
-
 <body>
+  <div class="creator-top" style="text-align:center;margin:8px 0;font-size:0.95rem;color:#333;">Created by Sahil Thorat</div>
   <div class="app-shell">
-    <header class="top-bar">
-      <div class="hotel-title">
-        <span id="hotelNameDisplay">My Hotel</span>
-        <small id="hotelAddressDisplay">123, Main Street, City</small>
-      </div>
-      <div class="top-actions">
-        <button id="openSettingsBtn" class="btn ghost-btn">Settings</button>
+    <header class="top-bar" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+      <div class="app-title" style="font-weight:700;font-size:1.1rem;">Hotel Management System</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="hotel-info" style="text-align:right;line-height:1.1;">
+          <div id="hotelNameDisplay">My Hotel</div>
+          <div id="hotelAddressDisplay" style="font-size:0.85rem;color:#666;">123, Main Street, City</div>
+          <div id="hotelPhoneDisplay" style="font-size:0.85rem;color:#666;">+91-0000000000</div>
+        </div>
+        <div class="top-actions">
+          <button id="openSettingsBtn" class="btn ghost-btn">Settings</button>
+        </div>
       </div>
     </header>
 
   <!-- Open panels area: allows multiple table panels to be open simultaneously -->
   <section id="openPanelsSection" class="panel open-panels-section">
-    <h2>Open Table Panels (dbl-click a table to open)</h2>
+    <h2>Table Panels (double -click a table to open)</h2>
     <div id="openPanels" class="open-panels-container"></div>
   </section>
 
@@ -57,7 +61,7 @@
         <h2>Current Order</h2>
         <div class="order-form">
           <div class="field-group">
-            <label for="itemNameInput">Item name</label>
+            <label for="itemNameInput">Custom Item name</label>
             <input id="itemNameInput" type="text" placeholder="Eg. Masala Dosa" />
           </div>
           <div class="field-group">
@@ -179,10 +183,11 @@
         </thead>
         <tbody id="billItemsBody"></tbody>
       </table>
-      <div class="bill-totals">
+      <div class="bill-totals" style="margin-top:12px;">
         <div>Subtotal: ₹<span id="billSubtotal">0.00</span></div>
         <div>Tax (<span id="billTaxRate">0</span>%): ₹<span id="billTaxAmount">0.00</span></div>
         <div class="bill-grand">Grand Total: ₹<span id="billGrandTotal">0.00</span></div>
+        <div class="bill-credits" style="margin-top:6px;font-size:0.55rem;color:#444;text-align:center;">Credits: Sahil Thorat</div>
         <div class="bill-payment">Paid by: <strong id="billPaymentMethod">-</strong></div>
       </div>
       <div class="bill-footer">
@@ -221,6 +226,7 @@
   </div>
 
   <script src="app.js"></script>
+  <footer class="creator" style="text-align:center;margin:12px 0;font-size:0.9rem;color:#666;">Created by Sahil Thorat</footer>
 </body>
 
 </html>
